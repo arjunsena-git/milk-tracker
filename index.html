@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Milk Tracker ð¥</title>
+  <title>Milk Tracker 🥛</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -418,7 +418,7 @@
 <!-- Header -->
 <div class="header">
   <div class="header-top">
-    <div class="logo"><span>ð¥</span> Milk Tracker</div>
+    <div class="logo"><span>🥛</span> Milk Tracker</div>
     <div class="month-nav">
       <button class="nav-btn" id="prev-month">&#8592;</button>
       <div id="month-label">May 2025</div>
@@ -427,7 +427,7 @@
   </div>
   <div class="price-row">
     <label>Price per litre</label>
-    <span class="currency">â¹</span>
+    <span class="currency">₹</span>
     <input type="number" id="price-per-litre" value="70" min="1" inputmode="decimal" />
     <label style="margin-left:4px;font-size:0.75rem;color:var(--accent)">/ L</label>
   </div>
@@ -448,7 +448,7 @@
     <div class="total-litres">Total: <span id="total-litres">0 L</span></div>
     <div class="total-litres" style="margin-top:2px">Days entered: <span id="days-entered">0</span></div>
   </div>
-  <button class="calc-btn" id="calc-btn">ð° Calculate Bill</button>
+  <button class="calc-btn" id="calc-btn">🧾 Calculate Bill</button>
 </div>
 
 <!-- Day entry modal -->
@@ -477,9 +477,9 @@
 <!-- Result modal -->
 <div class="modal-overlay" id="result-modal">
   <div class="result-modal">
-    <div class="emoji">ð§¾</div>
+    <div class="emoji">🧾</div>
     <h2>Amount Due to Milkman</h2>
-    <div class="amount" id="result-amount">â¹0</div>
+    <div class="amount" id="result-amount">₹0</div>
     <div class="breakdown" id="result-breakdown"></div>
     <button class="btn-close" id="result-close">Close</button>
   </div>
@@ -539,7 +539,7 @@
       cell.innerHTML = `
         <div class="day-num">${d}</div>
         <div class="day-litres ${litres === null || litres === 0 ? 'zero' : ''}">
-          ${litres !== null && litres > 0 ? litres : (litres === 0 ? 'â' : '+')}
+          ${litres !== null && litres > 0 ? litres : (litres === 0 ? '—' : '+')}
         </div>
         ${litres !== null && litres > 0 ? '<div class="litre-label">litres</div>' : ''}
       `;
@@ -608,10 +608,10 @@
     const price = getPrice();
     const amount = total * price;
 
-    document.getElementById('result-amount').textContent = 'â¹' + amount.toFixed(2);
+    document.getElementById('result-amount').textContent = '₹' + amount.toFixed(2);
     document.getElementById('result-breakdown').innerHTML =
       `${MONTHS[currentMonth]} ${currentYear}<br>` +
-      `<strong style="color:var(--text)">${total.toFixed(1)} L</strong> Ã â¹${price}/L<br>` +
+      `<strong style="color:var(--text)">${total.toFixed(1)} L</strong> &times; ₹${price}/L<br>` +
       `Across <strong style="color:var(--text)">${days} days</strong>`;
 
     document.getElementById('result-modal').classList.add('active');
@@ -650,7 +650,7 @@
   if (savedPrice) document.getElementById('price-per-litre').value = savedPrice;
 
   // Enter key saves
-  DOcument.getElementById('litre-input').addEventListener('keydown', (e) => {
+  document.getElementById('litre-input').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') document.getElementById('modal-save').click();
   });
 
