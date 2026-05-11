@@ -166,6 +166,10 @@
       background: rgba(167,139,250,0.1);
     }
 
+    .day-cell.default-entry {
+      border-color: rgba(79,142,247,0.35);
+    }
+
     .day-num {
       font-size: 0.75rem;
       font-weight: 600;
@@ -528,20 +532,23 @@
 
     for (let d = 1; d <= daysInMonth; d++) {
       const key = storageKey(currentYear, currentMonth, d);
-      const litres = data[key] !== undefined ? data[key] : null;
+      const stored = data[key] !== undefined ? data[key] : null;
+      const isDefault = stored === null;
+      const litres = isDefault ? 1 : stored;
       const isToday = (d === todayD && currentMonth === todayM && currentYear === todayY);
 
       const cell = document.createElement('div');
       cell.className = 'day-cell' +
         (isToday ? ' today' : '') +
-        (litres !== null && litres > 0 ? ' has-entry' : '');
+        (!isDefault && litres > 0 ? ' has-entry' : '') +
+        (isDefault ? ' default-entry' : '');
 
       cell.innerHTML = `
         <div class="day-num">${d}</div>
-        <div class="day-litres ${litres === null || litres === 0 ? 'zero' : ''}">
-          ${litres !== null && litres > 0 ? litres : (litres === 0 ? '—' : '+')}
+        <div class="day-litres ${litres === 0 ? 'zero' : ''}">
+          ${litres > 0 ? litres : '—'}
         </div>
-        ${litres !== null && litres > 0 ? '<div class="litre-label">litres</div>' : ''}
+        ${litres > 0 ? '<div class="litre-label">litres</div>' : ''}
       `;
 
       cell.addEventListener('click', () => openDayModal(d));
@@ -553,12 +560,11 @@
 
   function updateSummary() {
     let total = 0, days = 0;
-    for (let d = 1; d <= 31; d++) {
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
       const key = storageKey(currentYear, currentMonth, d);
-      if (data[key] !== undefined && data[key] > 0) {
-        total += data[key];
-        days++;
-      }
+      const effective = data[key] !== undefined ? data[key] : 1;
+      if (effective > 0) { total += effective; days++; }
     }
     document.getElementById('total-litres').textContent = total.toFixed(1) + ' L';
     document.getElementById('days-entered').textContent = days;
@@ -571,8 +577,8 @@
     document.getElementById('modal-title').textContent = `${dayName}, ${day} ${MONTHS[currentMonth]}`;
     document.getElementById('modal-date').textContent = 'How many litres did you take?';
     const key = storageKey(currentYear, currentMonth, day);
-    const existing = data[key] !== undefined ? data[key] : '';
-    document.getElementById('litre-input').value = existing !== '' ? existing : '';
+    const existing = data[key] !== undefined ? data[key] : 1;
+    document.getElementById('litre-input').value = existing;
     document.getElementById('day-modal').classList.add('active');
     setTimeout(() => document.getElementById('litre-input').focus(), 300);
   }
@@ -598,12 +604,11 @@
   // Calculate bill
   document.getElementById('calc-btn').addEventListener('click', () => {
     let total = 0, days = 0;
-    for (let d = 1; d <= 31; d++) {
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
       const key = storageKey(currentYear, currentMonth, d);
-      if (data[key] !== undefined && data[key] > 0) {
-        total += data[key];
-        days++;
-      }
+      const effective = data[key] !== undefined ? data[key] : 1;
+      if (effective > 0) { total += effective; days++; }
     }
     const price = getPrice();
     const amount = total * price;
