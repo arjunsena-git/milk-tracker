@@ -166,10 +166,6 @@
       background: rgba(167,139,250,0.1);
     }
 
-    .day-cell.default-entry {
-      border-color: rgba(79,142,247,0.35);
-    }
-
     .day-num {
       font-size: 0.75rem;
       font-weight: 600;
@@ -415,6 +411,200 @@
       border-radius: 12px;
       cursor: pointer;
     }
+
+    /* Advance Tracker Styles */
+    .advance-card {
+      background: linear-gradient(135deg, rgba(79,142,247,0.1) 0%, rgba(167,139,250,0.1) 100%);
+      border: 1px solid rgba(79,142,247,0.2);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .advance-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .advance-title {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .advance-amount {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .advance-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .advance-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .advance-btn.primary {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: #fff;
+    }
+    .advance-btn.primary:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+
+    .advance-btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .advance-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* History list item styles */
+    .history-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+
+    .history-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .history-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .history-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .history-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .history-badge.advance {
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--success);
+    }
+
+    .history-badge.deduction {
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--accent2);
+    }
+
+    .history-date {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .history-notes {
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .history-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .history-value {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .history-value.advance {
+      color: var(--success);
+    }
+
+    .history-value.deduction {
+      color: var(--accent2);
+    }
+
+    .history-delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px;
+      font-size: 1rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .history-delete-btn:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      opacity: 0.6;
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      .advance-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px 14px;
+      }
+      .advance-info {
+        text-align: center;
+      }
+      .advance-actions {
+        justify-content: center;
+      }
+      .advance-btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -439,6 +629,18 @@
 
 <!-- Calendar -->
 <div class="calendar-wrap">
+  <!-- Advance Card -->
+  <div class="advance-card">
+    <div class="advance-info">
+      <span class="advance-title">Milkman Advance Balance</span>
+      <span class="advance-amount" id="advance-balance">₹0.00</span>
+    </div>
+    <div class="advance-actions">
+      <button class="advance-btn secondary" id="advance-history-btn">📜 History</button>
+      <button class="advance-btn primary" id="add-advance-btn">➕ Give Advance</button>
+    </div>
+  </div>
+
   <div class="weekday-headers">
     <div>Sun</div><div>Mon</div><div>Tue</div>
     <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
@@ -452,7 +654,7 @@
     <div class="total-litres">Total: <span id="total-litres">0 L</span></div>
     <div class="total-litres" style="margin-top:2px">Days entered: <span id="days-entered">0</span></div>
   </div>
-  <button class="calc-btn" id="calc-btn">🧾 Calculate Bill</button>
+  <button class="calc-btn" id="calc-btn">💰 Calculate Bill</button>
 </div>
 
 <!-- Day entry modal -->
@@ -485,7 +687,75 @@
     <h2>Amount Due to Milkman</h2>
     <div class="amount" id="result-amount">₹0</div>
     <div class="breakdown" id="result-breakdown"></div>
-    <button class="btn-close" id="result-close">Close</button>
+    
+    <!-- Advance adjustment section -->
+    <div id="result-advance-section" style="display:none; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 16px; margin-top: 16px; text-align: left;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:0.85rem; color:var(--muted)">Advance Balance:</span>
+        <strong id="result-available-advance" style="color:var(--success)">₹0.00</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px;">
+        <span style="font-size:0.85rem; color:var(--muted)">Deduct from Advance:</span>
+        <div style="display:flex; align-items:center; background:var(--card); border:1.5px solid rgba(167,139,250,0.3); border-radius:8px; padding:6px 10px; max-width:140px;">
+          <span style="color:var(--muted); font-size:0.85rem; margin-right:4px;">₹</span>
+          <input type="number" id="deduction-amount-input" min="0" step="1" inputmode="decimal" style="width:100%; background:transparent; border:none; outline:none; color:var(--accent2); font-weight:700; font-size:0.95rem; text-align:right;" />
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed rgba(255,255,255,0.08); padding-top:12px;">
+        <span style="font-size:0.9rem; font-weight:600; color:var(--text)">Net Cash to Pay:</span>
+        <strong id="result-net-payable" style="font-size:1.3rem; color:var(--accent)">₹0.00</strong>
+      </div>
+    </div>
+    
+    <div class="modal-actions" style="margin-top: 20px; width: 100%; display: flex; gap: 10px;">
+      <button class="btn-cancel" id="result-close" style="flex:1;">Close</button>
+      <button class="btn-save" id="confirm-deduction-btn" style="flex:1.5; display:none;">Confirm Deduction</button>
+    </div>
+  </div>
+</div>
+
+<!-- Give Advance Modal -->
+<div class="modal-overlay" id="advance-modal">
+  <div class="modal">
+    <div class="modal-title">Record Advance Payment</div>
+    <div class="modal-date">Give advance money to the milkman</div>
+    
+    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+      <div class="modal-input-wrap" style="margin-bottom:0;">
+        <span class="unit" style="font-size:1.2rem; font-weight:600; color:var(--accent)">₹</span>
+        <input type="number" id="advance-amount-input" inputmode="decimal" placeholder="0" min="1" required style="font-size:1.8rem; font-weight:700;" />
+        <span class="unit">Amount</span>
+      </div>
+      
+      <div class="modal-input-wrap" style="margin-bottom:0; padding: 10px 16px;">
+        <input type="date" id="advance-date-input" required style="font-size:1rem; font-weight:500;" />
+      </div>
+      
+      <div class="modal-input-wrap" style="margin-bottom:0; padding: 10px 16px;">
+        <input type="text" id="advance-note-input" placeholder="Notes (e.g. Family emergency)" style="font-size:1rem; font-weight:500;" />
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="advance-cancel">Cancel</button>
+      <button class="btn-save" id="advance-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal-overlay" id="history-modal">
+  <div class="modal" style="max-height: 80vh; display: flex; flex-direction: column;">
+    <div class="modal-title">Advance & Deduction History</div>
+    <div class="modal-date">Track previous advances and monthly adjustments</div>
+    
+    <div id="history-list" style="flex: 1; overflow-y: auto; margin-bottom: 20px; padding-right: 4px; display:flex; flex-direction:column; gap:10px; min-height: 150px;">
+      <!-- Transactions will be loaded here dynamically -->
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="history-close" style="flex: 1;">Close</button>
+    </div>
   </div>
 </div>
 
@@ -497,6 +767,156 @@
   let currentYear, currentMonth, selectedDay;
   // data: { "YYYY-M-D": litres }
   let data = JSON.parse(localStorage.getItem('milkData') || '{}');
+
+  // Advance tracking state
+  let advanceState = JSON.parse(localStorage.getItem('milkAdvance') || '{"balance": 0, "history": []}');
+
+  // In older versions, balance might not match history if it was modified. We recalculate it to be safe.
+  recalculateAdvanceBalance();
+
+  function saveAdvanceState() {
+    localStorage.setItem('milkAdvance', JSON.stringify(advanceState));
+  }
+
+  function recalculateAdvanceBalance() {
+    let bal = 0;
+    advanceState.history.forEach(tx => {
+      if (tx.type === 'advance') {
+        bal += tx.amount;
+      } else if (tx.type === 'deduction') {
+        bal -= tx.amount;
+      }
+    });
+    advanceState.balance = Math.max(0, bal);
+  }
+
+  function addAdvance(amount, date, notes) {
+    const tx = {
+      id: 'tx_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+      date: date || new Date().toISOString().split('T')[0],
+      type: 'advance',
+      amount: parseFloat(amount),
+      notes: notes || ''
+    };
+    advanceState.history.push(tx);
+    recalculateAdvanceBalance();
+    saveAdvanceState();
+    renderAdvanceCard();
+  }
+
+  function applyDeduction(amount, period) {
+    const tx = {
+      id: 'tx_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+      date: new Date().toISOString().split('T')[0],
+      type: 'deduction',
+      amount: parseFloat(amount),
+      period: period,
+      notes: `Deducted from bill for ${period}`
+    };
+    advanceState.history.push(tx);
+    recalculateAdvanceBalance();
+    saveAdvanceState();
+    renderAdvanceCard();
+  }
+
+  function deleteTransaction(id) {
+    if (confirm('Are you sure you want to delete this transaction? This will update the advance balance.')) {
+      advanceState.history = advanceState.history.filter(tx => tx.id !== id);
+      recalculateAdvanceBalance();
+      saveAdvanceState();
+      renderAdvanceCard();
+      renderAdvanceHistory();
+    }
+  }
+
+  function renderAdvanceCard() {
+    const el = document.getElementById('advance-balance');
+    if (el) {
+      el.textContent = '₹' + advanceState.balance.toFixed(2);
+    }
+  }
+
+  function renderAdvanceHistory() {
+    const list = document.getElementById('history-list');
+    if (!list) return;
+    list.innerHTML = '';
+    
+    if (advanceState.history.length === 0) {
+      list.innerHTML = `<div style="text-align:center; color:var(--muted); margin-top:40px; font-size:0.9rem;">No transactions yet.</div>`;
+      return;
+    }
+    
+    // Sort oldest first to compute running balance correctly
+    const chrono = [...advanceState.history].sort((a, b) => {
+      if (a.date !== b.date) {
+        return a.date.localeCompare(b.date);
+      }
+      return a.id.localeCompare(b.id);
+    });
+    
+    let runningBal = 0;
+    const txBalMap = {};
+    chrono.forEach(tx => {
+      if (tx.type === 'advance') {
+        runningBal += tx.amount;
+      } else if (tx.type === 'deduction') {
+        runningBal -= tx.amount;
+      }
+      txBalMap[tx.id] = runningBal;
+    });
+    
+    // Sort newest first for display
+    const sorted = [...advanceState.history].sort((a, b) => {
+      if (a.date !== b.date) {
+        return b.date.localeCompare(a.date);
+      }
+      return b.id.localeCompare(a.id);
+    });
+    
+    sorted.forEach(tx => {
+      const item = document.createElement('div');
+      item.className = 'history-item';
+      
+      // format date safely
+      let formattedDate = tx.date;
+      try {
+        const parts = tx.date.split('-');
+        if (parts.length === 3) {
+          const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+          formattedDate = dObj.toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+      
+      const isAdvance = tx.type === 'advance';
+      const typeLabel = isAdvance ? 'Advance' : 'Deduction';
+      const badgeClass = isAdvance ? 'advance' : 'deduction';
+      const valClass = isAdvance ? 'advance' : 'deduction';
+      const valPrefix = isAdvance ? '+' : '–';
+      const balAfter = txBalMap[tx.id] || 0;
+      
+      item.innerHTML = `
+        <div class="history-meta">
+          <div class="history-badge-row">
+            <span class="history-badge ${badgeClass}">${typeLabel}</span>
+            <span class="history-date">${formattedDate}</span>
+          </div>
+          ${tx.notes ? `<div class="history-notes">${tx.notes}</div>` : ''}
+          <div style="font-size:0.7rem; color:var(--muted); margin-top:2px;">Balance after: ₹${balAfter.toFixed(2)}</div>
+        </div>
+        <div class="history-right">
+          <div class="history-value ${valClass}">${valPrefix}₹${tx.amount.toFixed(2)}</div>
+          <button class="history-delete-btn" onclick="deleteTransaction('${tx.id}')" title="Delete transaction">🗑️</button>
+        </div>
+      `;
+      list.appendChild(item);
+    });
+  }
 
   function storageKey(y, m, d) { return `${y}-${m}-${d}`; }
 
@@ -510,6 +930,7 @@
   currentMonth = now.getMonth(); // 0-indexed
 
   function renderCalendar() {
+    renderAdvanceCard();
     document.getElementById('month-label').textContent =
       MONTHS[currentMonth] + ' ' + currentYear;
 
@@ -532,23 +953,20 @@
 
     for (let d = 1; d <= daysInMonth; d++) {
       const key = storageKey(currentYear, currentMonth, d);
-      const stored = data[key] !== undefined ? data[key] : null;
-      const isDefault = stored === null;
-      const litres = isDefault ? 1 : stored;
+      const litres = data[key] !== undefined ? data[key] : null;
       const isToday = (d === todayD && currentMonth === todayM && currentYear === todayY);
 
       const cell = document.createElement('div');
       cell.className = 'day-cell' +
         (isToday ? ' today' : '') +
-        (!isDefault && litres > 0 ? ' has-entry' : '') +
-        (isDefault ? ' default-entry' : '');
+        (litres !== null && litres > 0 ? ' has-entry' : '');
 
       cell.innerHTML = `
         <div class="day-num">${d}</div>
-        <div class="day-litres ${litres === 0 ? 'zero' : ''}">
-          ${litres > 0 ? litres : '—'}
+        <div class="day-litres ${litres === null || litres === 0 ? 'zero' : ''}">
+          ${litres !== null && litres > 0 ? litres : (litres === 0 ? '—' : '+')}
         </div>
-        ${litres > 0 ? '<div class="litre-label">litres</div>' : ''}
+        ${litres !== null && litres > 0 ? '<div class="litre-label">litres</div>' : ''}
       `;
 
       cell.addEventListener('click', () => openDayModal(d));
@@ -560,14 +978,42 @@
 
   function updateSummary() {
     let total = 0, days = 0;
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    for (let d = 1; d <= daysInMonth; d++) {
+    for (let d = 1; d <= 31; d++) {
       const key = storageKey(currentYear, currentMonth, d);
-      const effective = data[key] !== undefined ? data[key] : 1;
-      if (effective > 0) { total += effective; days++; }
+      if (data[key] !== undefined && data[key] > 0) {
+        total += data[key];
+        days++;
+      }
     }
-    document.getElementById('total-litres').textContent = total.toFixed(1) + ' L';
-    document.getElementById('days-entered').textContent = days;
+    
+    const price = getPrice();
+    const amount = total * price;
+    
+    const periodStr = `${MONTHS[currentMonth]} ${currentYear}`;
+    const deductionTx = advanceState.history.find(tx => tx.type === 'deduction' && tx.period === periodStr);
+    
+    const calcBtn = document.getElementById('calc-btn');
+    const statsContainer = document.querySelector('.summary-bar .stats');
+    
+    if (deductionTx) {
+      const netPaid = Math.max(0, amount - deductionTx.amount);
+      statsContainer.innerHTML = `
+        <div class="total-litres">Bill: <span style="color:var(--text); font-weight:600;">₹${amount.toFixed(2)}</span> (${total.toFixed(1)} L)</div>
+        <div class="total-litres" style="margin-top:2px">Deducted: <span style="color:var(--accent2); font-weight:600;">-₹${deductionTx.amount.toFixed(2)}</span></div>
+        <div class="total-litres" style="margin-top:2px">Cash Paid: <span style="color:var(--success); font-weight:600;">₹${netPaid.toFixed(2)}</span></div>
+      `;
+      calcBtn.textContent = '🧾 View Receipt';
+      calcBtn.style.background = 'linear-gradient(135deg, var(--card) 0%, rgba(255,255,255,0.08) 100%)';
+      calcBtn.style.border = '1px solid rgba(255,255,255,0.1)';
+    } else {
+      statsContainer.innerHTML = `
+        <div class="total-litres">Total: <span id="total-litres">${total.toFixed(1)} L</span></div>
+        <div class="total-litres" style="margin-top:2px">Days entered: <span id="days-entered">${days}</span></div>
+      `;
+      calcBtn.textContent = '💰 Calculate Bill';
+      calcBtn.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%)';
+      calcBtn.style.border = 'none';
+    }
   }
 
   function openDayModal(day) {
@@ -577,8 +1023,8 @@
     document.getElementById('modal-title').textContent = `${dayName}, ${day} ${MONTHS[currentMonth]}`;
     document.getElementById('modal-date').textContent = 'How many litres did you take?';
     const key = storageKey(currentYear, currentMonth, day);
-    const existing = data[key] !== undefined ? data[key] : 1;
-    document.getElementById('litre-input').value = existing;
+    const existing = data[key] !== undefined ? data[key] : '';
+    document.getElementById('litre-input').value = existing !== '' ? existing : '';
     document.getElementById('day-modal').classList.add('active');
     setTimeout(() => document.getElementById('litre-input').focus(), 300);
   }
@@ -604,20 +1050,127 @@
   // Calculate bill
   document.getElementById('calc-btn').addEventListener('click', () => {
     let total = 0, days = 0;
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    for (let d = 1; d <= daysInMonth; d++) {
+    for (let d = 1; d <= 31; d++) {
       const key = storageKey(currentYear, currentMonth, d);
-      const effective = data[key] !== undefined ? data[key] : 1;
-      if (effective > 0) { total += effective; days++; }
+      if (data[key] !== undefined && data[key] > 0) {
+        total += data[key];
+        days++;
+      }
     }
     const price = getPrice();
     const amount = total * price;
 
-    document.getElementById('result-amount').textContent = '₹' + amount.toFixed(2);
-    document.getElementById('result-breakdown').innerHTML =
-      `${MONTHS[currentMonth]} ${currentYear}<br>` +
-      `<strong style="color:var(--text)">${total.toFixed(1)} L</strong> &times; ₹${price}/L<br>` +
-      `Across <strong style="color:var(--text)">${days} days</strong>`;
+    const periodStr = `${MONTHS[currentMonth]} ${currentYear}`;
+    const deductionTx = advanceState.history.find(tx => tx.type === 'deduction' && tx.period === periodStr);
+
+    const resultAmountEl = document.getElementById('result-amount');
+    const resultBreakdownEl = document.getElementById('result-breakdown');
+    const advanceSection = document.getElementById('result-advance-section');
+    const confirmBtn = document.getElementById('confirm-deduction-btn');
+    const deductionInput = document.getElementById('deduction-amount-input');
+    const availableAdvanceEl = document.getElementById('result-available-advance');
+    const netPayableEl = document.getElementById('result-net-payable');
+
+    if (deductionTx) {
+      // Calculate advance balance BEFORE this deduction
+      const chrono = [...advanceState.history].sort((a, b) => {
+        if (a.date !== b.date) {
+          return a.date.localeCompare(b.date);
+        }
+        return a.id.localeCompare(b.id);
+      });
+      let bal = 0;
+      let balBefore = 0;
+      for (let i = 0; i < chrono.length; i++) {
+        const tx = chrono[i];
+        if (tx.id === deductionTx.id) {
+          balBefore = bal;
+          break;
+        }
+        if (tx.type === 'advance') bal += tx.amount;
+        else if (tx.type === 'deduction') bal -= tx.amount;
+      }
+
+      resultAmountEl.textContent = '₹' + (amount - deductionTx.amount).toFixed(2);
+      document.querySelector('#result-modal h2').textContent = 'Net Cash Paid';
+      
+      resultBreakdownEl.innerHTML =
+        `<strong style="color:var(--text)">${periodStr} Bill Summary</strong><br>` +
+        `Original Bill: <strong style="color:var(--text)">₹${amount.toFixed(2)}</strong> (${total.toFixed(1)} L × ₹${price}/L)<br>` +
+        `Deducted from Advance: <strong style="color:var(--accent2)">-₹${deductionTx.amount.toFixed(2)}</strong><br>` +
+        `Cash Paid: <strong style="color:var(--success)">₹${(amount - deductionTx.amount).toFixed(2)}</strong>`;
+
+      advanceSection.style.display = 'block';
+      confirmBtn.style.display = 'block';
+      confirmBtn.textContent = '🔄 Reset Deduction';
+      confirmBtn.style.background = 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)';
+      
+      availableAdvanceEl.textContent = '₹' + balBefore.toFixed(2);
+      
+      deductionInput.value = deductionTx.amount;
+      deductionInput.disabled = true;
+      netPayableEl.textContent = '₹' + (amount - deductionTx.amount).toFixed(2);
+      
+      confirmBtn.onclick = () => {
+        if (confirm('Are you sure you want to undo this month\'s deduction? This will restore the advance balance.')) {
+          advanceState.history = advanceState.history.filter(tx => tx.id !== deductionTx.id);
+          recalculateAdvanceBalance();
+          saveAdvanceState();
+          document.getElementById('result-modal').classList.remove('active');
+          renderCalendar();
+        }
+      };
+    } else {
+      document.querySelector('#result-modal h2').textContent = 'Amount Due to Milkman';
+      resultAmountEl.textContent = '₹' + amount.toFixed(2);
+      resultBreakdownEl.innerHTML =
+        `${periodStr}<br>` +
+        `<strong style="color:var(--text)">${total.toFixed(1)} L</strong> × ₹${price}/L<br>` +
+        `Across <strong style="color:var(--text)">${days} days</strong>`;
+
+      deductionInput.disabled = false;
+      confirmBtn.textContent = 'Confirm Deduction';
+      confirmBtn.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%)';
+
+      if (advanceState.balance > 0 && amount > 0) {
+        advanceSection.style.display = 'block';
+        confirmBtn.style.display = 'block';
+        availableAdvanceEl.textContent = '₹' + advanceState.balance.toFixed(2);
+        
+        const suggestedDeduction = Math.min(amount, advanceState.balance);
+        deductionInput.value = Math.round(suggestedDeduction);
+        
+        const updateNet = () => {
+          let val = parseFloat(deductionInput.value) || 0;
+          if (val < 0) val = 0;
+          if (val > amount) val = amount;
+          if (val > advanceState.balance) val = advanceState.balance;
+          
+          const net = amount - val;
+          netPayableEl.textContent = '₹' + net.toFixed(2);
+        };
+        
+        deductionInput.oninput = updateNet;
+        updateNet();
+        
+        confirmBtn.onclick = () => {
+          let val = parseFloat(deductionInput.value) || 0;
+          if (val < 0) val = 0;
+          if (val > amount) val = amount;
+          if (val > advanceState.balance) val = advanceState.balance;
+          
+          if (val > 0) {
+            applyDeduction(val, periodStr);
+            alert(`Successfully deducted ₹${val.toFixed(2)} from advance for ${periodStr}.`);
+          }
+          document.getElementById('result-modal').classList.remove('active');
+          renderCalendar();
+        };
+      } else {
+        advanceSection.style.display = 'none';
+        confirmBtn.style.display = 'none';
+      }
+    }
 
     document.getElementById('result-modal').classList.add('active');
   });
@@ -657,6 +1210,60 @@
   // Enter key saves
   document.getElementById('litre-input').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') document.getElementById('modal-save').click();
+  });
+
+  // Give Advance Modal Event Listeners
+  document.getElementById('add-advance-btn').addEventListener('click', () => {
+    document.getElementById('advance-amount-input').value = '';
+    document.getElementById('advance-date-input').value = new Date().toISOString().split('T')[0];
+    document.getElementById('advance-note-input').value = '';
+    document.getElementById('advance-modal').classList.add('active');
+    setTimeout(() => document.getElementById('advance-amount-input').focus(), 300);
+  });
+
+  document.getElementById('advance-cancel').addEventListener('click', () => {
+    document.getElementById('advance-modal').classList.remove('active');
+  });
+
+  document.getElementById('advance-save').addEventListener('click', () => {
+    const amountVal = parseFloat(document.getElementById('advance-amount-input').value);
+    const dateVal = document.getElementById('advance-date-input').value;
+    const noteVal = document.getElementById('advance-note-input').value.trim();
+    
+    if (isNaN(amountVal) || amountVal <= 0) {
+      alert('Please enter a valid amount.');
+      return;
+    }
+    if (!dateVal) {
+      alert('Please select a valid date.');
+      return;
+    }
+    
+    addAdvance(amountVal, dateVal, noteVal);
+    document.getElementById('advance-modal').classList.remove('active');
+  });
+
+  // History Modal Event Listeners
+  document.getElementById('advance-history-btn').addEventListener('click', () => {
+    renderAdvanceHistory();
+    document.getElementById('history-modal').classList.add('active');
+  });
+
+  document.getElementById('history-close').addEventListener('click', () => {
+    document.getElementById('history-modal').classList.remove('active');
+  });
+
+  // Close new modals on overlay click
+  document.getElementById('advance-modal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+  document.getElementById('history-modal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+
+  // Enter key saves advance modal
+  document.getElementById('advance-amount-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('advance-save').click();
   });
 
   renderCalendar();
