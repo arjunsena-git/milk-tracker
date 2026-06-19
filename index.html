@@ -920,6 +920,21 @@
 
   function storageKey(y, m, d) { return `${y}-${m}-${d}`; }
 
+  // Keep June 2026 unchanged. From July 2026 onward, unedited days default to 1 L.
+  const DEFAULT_ONE_LITRE_START_YEAR = 2026;
+  const DEFAULT_ONE_LITRE_START_MONTH = 6; // July (0-indexed)
+
+  function defaultsToOneLitre(y, m) {
+    return (y * 12 + m) >=
+      (DEFAULT_ONE_LITRE_START_YEAR * 12 + DEFAULT_ONE_LITRE_START_MONTH);
+  }
+
+  function getLitresForDay(y, m, d) {
+    const key = storageKey(y, m, d);
+    if (data[key] !== undefined) return data[key];
+    return defaultsToOneLitre(y, m) ? 1 : null;
+  }
+
   function getPrice() {
     return parseFloat(document.getElementById('price-per-litre').value) || 0;
   }
@@ -952,8 +967,7 @@
     const todayY = now.getFullYear();
 
     for (let d = 1; d <= daysInMonth; d++) {
-      const key = storageKey(currentYear, currentMonth, d);
-      const litres = data[key] !== undefined ? data[key] : null;
+      const litres = getLitresForDay(currentYear, currentMonth, d);
       const isToday = (d === todayD && currentMonth === todayM && currentYear === todayY);
 
       const cell = document.createElement('div');
@@ -978,10 +992,11 @@
 
   function updateSummary() {
     let total = 0, days = 0;
-    for (let d = 1; d <= 31; d++) {
-      const key = storageKey(currentYear, currentMonth, d);
-      if (data[key] !== undefined && data[key] > 0) {
-        total += data[key];
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+      const litres = getLitresForDay(currentYear, currentMonth, d);
+      if (litres !== null && litres > 0) {
+        total += litres;
         days++;
       }
     }
@@ -1022,9 +1037,8 @@
     const dayName = DAYS[date.getDay()];
     document.getElementById('modal-title').textContent = `${dayName}, ${day} ${MONTHS[currentMonth]}`;
     document.getElementById('modal-date').textContent = 'How many litres did you take?';
-    const key = storageKey(currentYear, currentMonth, day);
-    const existing = data[key] !== undefined ? data[key] : '';
-    document.getElementById('litre-input').value = existing !== '' ? existing : '';
+    const existing = getLitresForDay(currentYear, currentMonth, day);
+    document.getElementById('litre-input').value = existing !== null ? existing : '';
     document.getElementById('day-modal').classList.add('active');
     setTimeout(() => document.getElementById('litre-input').focus(), 300);
   }
@@ -1050,10 +1064,11 @@
   // Calculate bill
   document.getElementById('calc-btn').addEventListener('click', () => {
     let total = 0, days = 0;
-    for (let d = 1; d <= 31; d++) {
-      const key = storageKey(currentYear, currentMonth, d);
-      if (data[key] !== undefined && data[key] > 0) {
-        total += data[key];
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+      const litres = getLitresForDay(currentYear, currentMonth, d);
+      if (litres !== null && litres > 0) {
+        total += litres;
         days++;
       }
     }
